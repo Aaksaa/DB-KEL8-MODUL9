@@ -1,12 +1,12 @@
-Edgar Rizki
-
-Rifqi Adyasta
-
-Bramanta Setya
-
-
-
 Ini merupakan repository untuk pengerjaan Tugas Modul 9 pada Praktikum Mata Kuliah Basis Data.
+
+
+Berikut nama contributornya:
+
+1. Edgar Rizki P.N. 
+2. Rifqi Adyasta M.
+3. Bramanta Setya B.
+
 
 Repository ini digunakan untuk mengerjakan soal unjuk kerja pada bagian ini:
 
