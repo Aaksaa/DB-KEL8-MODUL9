@@ -1,5 +1,7 @@
 Edgar Rizki
+
 Rifqi Adyasta
+
 Bramanta Setya
 
 Ini merupakan repository untuk pengerjaan Tugas Modul 9 pada Praktikum Mata Kuliah Basis Data.
