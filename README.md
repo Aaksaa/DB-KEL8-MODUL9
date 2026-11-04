@@ -1,3 +1,7 @@
+Edgar Rizki
+Rifqi Adyasta
+Bramanta Setya
+
 Ini merupakan repository untuk pengerjaan Tugas Modul 9 pada Praktikum Mata Kuliah Basis Data.
 
 Repository ini digunakan untuk mengerjakan soal unjuk kerja pada bagian ini:
