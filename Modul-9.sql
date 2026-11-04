@@ -11,7 +11,6 @@ GROUP BY
     t.tanggal_transaksi
 ORDER BY t.id_transaksi;
 
-
 -- 2. Penerapan Denormalisasi (Tahap 2)
 CREATE TABLE REKAP_PENJUALAN (
     id_transaksi INT NOT NULL PRIMARY KEY,
@@ -31,7 +30,6 @@ FROM TRANSAKSI t
 JOIN DETAIL_PENJUALAN dp
     ON t.id_transaksi = dp.id_transaksi
 GROUP BY t.id_transaksi;
-
 
 -- 3. Pembuktian (Tahap 3)
 SELECT
