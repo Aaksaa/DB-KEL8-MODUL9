@@ -1,4 +1,3 @@
-
 USE db_keuangan;
 
 -- 1. PENGGUNA
@@ -42,3 +41,58 @@ INSERT INTO KAS_REKENING (id_kas, nama_kas, jenis_kas, saldo_terkini) VALUES
 -- T1-T3 penjualan | T4-T5 pembelian | T6-T8 pembayaran | T9-T10 kas pemilik
 INSERT INTO TRANSAKSI
 (id_transaksi, tanggal_transaksi, waktu_transaksi, keterangan, status_validasi, id_pengguna, total_nilai, jenis_transaksi) VALUES
+(1,  '2026-10-01', '09:15:00', 'Penjualan keripik & kopi ke Warung Bu Ani',     'Valid',    2, 370000.00,  'PENJUALAN'),
+(2,  '2026-10-03', '11:40:00', 'Penjualan madu & sambal ke Toko Oleh-Oleh',     'Valid',    2, 320000.00,  'PENJUALAN'),
+(3,  '2026-10-07', '14:05:00', 'Penjualan keripik ke Kafe Senja',               'Menunggu', 3, 280000.00,  'PENJUALAN'),
+(4,  '2026-10-02', '08:30:00', 'Pembelian kopi & teh dari CV Tani Makmur',      'Valid',    1, 860000.00,  'PEMBELIAN'),
+(5,  '2026-10-08', '10:20:00', 'Pembelian madu & sambal dari UD Sumber Rasa',   'Valid',    1, 624000.00,  'PEMBELIAN'),
+(6,  '2026-10-01', '09:30:00', 'Pelunasan penjualan T1 (tunai)',                'Valid',    2, 370000.00,  'PEMBAYARAN'),
+(7,  '2026-10-03', '12:00:00', 'Pelunasan penjualan T2 (DANA)',                 'Valid',    2, 320000.00,  'PEMBAYARAN'),
+(8,  '2026-10-05', '09:00:00', 'Pembayaran pembelian T4 ke CV Tani Makmur',     'Valid',    1, 860000.00,  'PEMBAYARAN'),
+(9,  '2026-10-01', '07:45:00', 'Setoran modal awal bulan Oktober',              'Valid',    1, 5000000.00, 'KAS_PEMILIK'),
+(10, '2026-10-10', '16:10:00', 'Pengambilan pribadi pemilik (prive)',           'Valid',    1, 500000.00,  'KAS_PEMILIK');
+
+-- 7. BUKTI_TRANSAKSI
+INSERT INTO BUKTI_TRANSAKSI
+(id_bukti, id_transaksi, nomor_bukti, tanggal_bukti, jenis_transaksi, keterangan, berkas_bukti, id_pelanggan, id_pemasok, id_pengguna) VALUES
+(1, 1, 'INV-2610-001', '2026-10-01', 'Nota Penjualan', 'Nota penjualan Warung Bu Ani',  'inv_2610_001.pdf,foto_nota_001.jpg', 1,    NULL, 2),
+(2, 2, 'INV-2610-002', '2026-10-03', 'Nota Penjualan', 'Nota penjualan Toko Oleh-Oleh', 'inv_2610_002.pdf',                   2,    NULL, 2),
+(3, 3, 'INV-2610-003', '2026-10-07', 'Nota Penjualan', 'Nota penjualan Kafe Senja',     'inv_2610_003.pdf,foto_nota_003.jpg', 3,    NULL, 3),
+(4, 4, 'PO-2610-001',  '2026-10-02', 'Faktur Pembelian','Faktur CV Tani Makmur',        'faktur_tm_0210.pdf',                 NULL, 1,    1),
+(5, 5, 'PO-2610-002',  '2026-10-08', 'Faktur Pembelian','Faktur UD Sumber Rasa',        'faktur_sr_0810.pdf,surat_jalan.jpg', NULL, 2,    1),
+(6, 8, 'TRF-2610-001', '2026-10-05', 'Bukti Transfer',  'Bukti transfer ke CV Tani Makmur','bukti_trf_0510.png',              NULL, 1,    1);
+
+-- 8. PEMBAYARAN
+INSERT INTO PEMBAYARAN
+(id_transaksi, arah_pembayaran, metode_bayar, jumlah_bayar, id_kas, referensi, status_verifikasi, sisa_alokasi) VALUES
+(6, 'Masuk',  'Tunai',    370000.00, 1, 'INV-2610-001',  'Terverifikasi', 0.00),
+(7, 'Masuk',  'E-Wallet', 320000.00, 3, 'INV-2610-002',  'Terverifikasi', 0.00),
+(8, 'Keluar', 'Transfer', 860000.00, 2, 'PO-2610-001',   'Terverifikasi', 0.00);
+
+-- 9. TRANSAKSI_KAS_PEMILIK
+INSERT INTO TRANSAKSI_KAS_PEMILIK (id_transaksi, jenis_kas_pemilik, jumlah, keterangan_tambahan) VALUES
+(9,  'Setoran Modal', 5000000.00, 'Modal tambahan dari pemilik'),
+(10, 'Prive',          500000.00, 'Kebutuhan pribadi pemilik');
+
+-- 10. DETAIL_PENJUALAN  (subtotal = jumlah * harga_satuan_actual - diskon_item)
+INSERT INTO DETAIL_PENJUALAN
+(id_transaksi, no_item, id_produk, id_pelanggan, jumlah, harga_satuan_actual, diskon_item, subtotal) VALUES
+(1, 1, 1, 1, 10, 15000.00,     0.00, 150000.00),
+(1, 2, 2, 1,  5, 45000.00,  5000.00, 220000.00),
+(2, 1, 3, 2,  3, 60000.00,     0.00, 180000.00),
+(2, 2, 4, 2,  6, 25000.00, 10000.00, 140000.00),
+(3, 1, 1, 3, 20, 14000.00,     0.00, 280000.00);
+
+-- 11. DETAIL_PEMBELIAN
+INSERT INTO DETAIL_PEMBELIAN
+(id_transaksi, no_item, id_produk, id_pemasok, jumlah, harga_satuan_actual, diskon_item, subtotal) VALUES
+(4, 1, 2, 1, 20, 35000.00, 20000.00, 680000.00),
+(4, 2, 5, 1, 10, 18000.00,     0.00, 180000.00),
+(5, 1, 3, 2, 10, 45000.00,     0.00, 450000.00),
+(5, 2, 4, 2, 12, 15000.00,  6000.00, 174000.00);
+
+-- 12. LAPORAN_KEUANGAN
+INSERT INTO LAPORAN_KEUANGAN (id_laporan, judul_laporan, periode, tanggal_cetak, id_pengguna) VALUES
+(1, 'Laporan Laba Rugi',        'September 2026', '2026-10-02', 1),
+(2, 'Laporan Arus Kas',         'September 2026', '2026-10-02', 1),
+(3, 'Laporan Penjualan Mingguan','Minggu 1 Oktober 2026', '2026-10-09', 3);
