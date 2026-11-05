@@ -1,4 +1,4 @@
-Ini merupakan repository untuk pengerjaan Tugas Modul 9 pada Praktikum Mata Kuliah Basis Data.
+Ini merupakan repository untuk pengerjaan Tugas Modul 9 pada Kelompok 8 (NixOS) Praktikum Mata Kuliah Basis Data.
 
 
 Berikut nama contributornya:
